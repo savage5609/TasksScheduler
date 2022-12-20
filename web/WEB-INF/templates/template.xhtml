@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:outputStylesheet name="reset.css" library="css"/>
+<h:outputStylesheet name="template.css" library="css"/>
+<h:panelGroup layout="block">
+    <h:panelGroup layout="block" id="header">
+        <ui:insert name="header">
+            <ui:include src="/WEB-INF/includes/header.xhtml"/>
+        </ui:insert>
+    </h:panelGroup>
+
+    <h:panelGroup layout="block" id="content">
+        <ui:insert name="content">
+            <ui:include src="/WEB-INF/includes/content.xhtml"/>
+        </ui:insert>
+    </h:panelGroup>
+
+    <h:panelGroup layout="block" id="footer">
+        <ui:insert name="footer">
+            <ui:include src="/WEB-INF/includes/footer.xhtml"/>
+        </ui:insert>
+    </h:panelGroup>
+</h:panelGroup>
+</html>

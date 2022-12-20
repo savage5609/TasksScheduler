@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/template.xhtml">
+    <ui:define name="header">
+        <h:head>
+            <title>#{username}</title>
+            <script type="text/javascript" src="/resources/js/schedule/future.js?newversion1" defer="defer"></script>
+        </h:head>
+        <ui:include src="/WEB-INF/includes/menu/user-page-menu.xhtml"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:body>
+            <h:outputStylesheet name="/schedule/future.css" library="css"/>
+            <div id="wrapper">
+                <div id="mainTable">
+                    <div class="dropZoneCell" id="dropZoneCell1">
+                        <div class="dropZoneHeader">
+                            <button id="createButton" onclick="PF('goalModal').show();">Create</button>
+                            Goals
+                            <p:dialog header="Create Goal" widgetVar="goalModal" modal="true">
+                                <h:form id="createGoalForm">
+                                    <h:panelGrid columns="2" border = "1" cellpadding = "10" cellspacing = "1">
+                                        <p:outputLabel styleClass="formLabel" for="title" value="StartDate:* "/>
+                                        <p:calendar pattern="dd/MM/yyyy" value="#{goals.startDate}" required="true"/>
+                                        <p:outputLabel styleClass="formLabel" for="title" value="TargetDate:* "/>
+                                        <p:calendar pattern="dd/MM/yyyy" value="#{goals.targetDate}" required="true"/>
+                                        <p:outputLabel styleClass="formLabel" for="title" value="Title:* "/>
+                                        <p:inputText id="title" value="#{goals.title}" required="true"/>
+                                        <p:outputLabel styleClass="formLabel" for="description" value="Description: "/>
+                                        <p:inputTextarea id="description" value="#{goals.description}" rows="5" cols="50"
+                                                         counter="display" maxlength="1000"
+                                                         counterTemplate="{0} characters remaining." autoResize="false"/>
+                                        <h:panelGroup layout="block"/>
+                                        <h:outputText id="display"/>
+                                    </h:panelGrid>
+                                    <h:commandButton action="#{goals.createGoal}" value="Submit"/>
+                                </h:form>
+                            </p:dialog>
+                        </div>
+                        <ui:repeat value="#{goals.goalsNotInProgress}" var="goalNotInProgress">
+                            <h:panelGroup layout="block" id="dynamic1" styleClass="goalWrapper" onmousedown="setupDrag(this)">
+                                <button class="editButton"></button>
+                                <div class="targetDate">Due date: #{goalNotInProgress.targetDate}</div>
+                                <div class="goal">#{goalNotInProgress.title}</div>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </div>
+                    <div class="dropZoneCell" id="dropZoneCell2">
+                        <div class="dropZoneHeader">In Progress</div>
+                        <ui:repeat value="#{goals.goalsInProgress}" var="goalInProgress">
+                            <h:panelGroup layout="block" id="dynamic2" styleClass="goalWrapper" onmousedown="setupDrag(this)">
+                                <button class="editButton"></button>
+                                <div class="targetDate">Due date: #{goalInProgress.targetDate}</div>
+                                <div class="goal">#{goalInProgress.title}</div>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </div>
+                    <div class="dropZoneCell" id="dropZoneCell3">
+                        <div class="dropZoneHeader">Accomplished</div>
+                        <ui:repeat value="#{goals.goalsAccomplished}" var="goalAccomplished">
+                            <h:panelGroup layout="block" id="dynamic3" styleClass="goalWrapper" onmousedown="setupDrag(this)">
+                                <button class="editButton"></button>
+                                <div class="targetDate">Due date: #{goalAccomplished.targetDate}</div>
+                                <div class="goal">#{goalAccomplished.title}</div>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </div>
+                </div>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>
